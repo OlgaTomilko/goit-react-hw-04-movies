@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Route, NavLink, Switch } from "react-router-dom";
-// import { NavLink, Route } from "react-router-dom";
 import Movies from "../../services/movie-api";
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
@@ -17,7 +16,7 @@ class MovieDetailsPage extends Component {
 
   async componentDidMount() {
     const { movieId } = this.props.match.params;
-    const response = await Movies.getMovies(`/movie/${movieId}`, "", 1);
+    const response = await Movies.getMovies(`/movie/${movieId}`);
     this.setState({ ...response });
     // console.log(this.state);
   }
@@ -31,13 +30,16 @@ class MovieDetailsPage extends Component {
       overview,
       genres,
     } = this.state;
-    const { match } = this.props;
+    const { match, history, location } = this.props;
     return (
       <div>
         <button
           type="button"
           onClick={() => {
-            this.props.history.push(this.props.location.state.from);
+            history.push({
+              pathname: location.state.from,
+              search: location.search,
+            });
           }}
         >
           Back
@@ -56,7 +58,18 @@ class MovieDetailsPage extends Component {
         ))}
         <ul>
           <li>
-            <NavLink to={`${match.url}/cast`}>Cast</NavLink>
+            <NavLink
+              // to={`${match.url}/cast`}
+              to={{
+                pathname: `${match.url}/cast`,
+                // search: location.search,
+                state: {
+                  from: this.props.location.pathname,
+                },
+              }}
+            >
+              Cast
+            </NavLink>
           </li>
           <li>
             <NavLink to={`${match.url}/reviews`}>Reviews</NavLink>

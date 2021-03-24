@@ -1,24 +1,35 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import MovieList from "../MoviesList/MoviesList";
 import Movies from "../../services/movie-api";
 
 class MoviesPage extends Component {
   state = {
-    query: null,
+    query: this.props.location.search.slice(7),
     movies: [],
   };
+
+  componentDidMount() {
+    if (this.state.query !== "") {
+      this.handleSearch();
+    }
+  }
 
   handleChange = (event) => {
     this.setState({ query: event.currentTarget.value });
   };
 
-  handleSubmit = async (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    const response = await Movies.getMovies(
-      "/search/movie",
-      this.state.query,
-      1
-    );
+    this.handleSearch();
+
+    this.props.history.push({
+      ...this.props.location,
+      search: `?query=${this.state.query}`,
+    });
+  };
+
+  handleSearch = async () => {
+    const response = await Movies.getMovies("/search/movie", this.state.query);
     this.setState({ movies: response.results });
   };
 
@@ -35,6 +46,7 @@ class MoviesPage extends Component {
               placeholder="Search images and photos"
               onChange={this.handleChange}
             />
+
             <button
               type="submit"
               className="SearchForm-button"
@@ -44,26 +56,10 @@ class MoviesPage extends Component {
             </button>
           </form>
         </header>
-
-        {this.state.movies &&
-          this.state.movies.map(({ title, id }) => (
-            <li key={id}>
-              <Link
-                // to={`${this.props.match.url}/${id}`}
-                to={{
-                  pathname: `${this.props.match.url}/${id}`,
-                  state: {
-                    from: this.props.location,
-                  },
-                }}
-              >
-                {title}
-              </Link>
-            </li>
-          ))}
+        <MovieList data={this.state.movies}></MovieList>
       </div>
     );
   }
 }
 
-export default withRouter(MoviesPage);
+export default MoviesPage;

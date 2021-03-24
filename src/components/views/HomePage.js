@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import MovieList from "../MoviesList/MoviesList";
 import Movies from "../../services/movie-api";
 
 class HomePage extends Component {
@@ -7,7 +8,7 @@ class HomePage extends Component {
   };
 
   async componentDidMount() {
-    const response = await Movies.getMovies("/trending/all/day", "", 1);
+    const response = await Movies.getMovies("/trending/all/day");
     this.setState({ movies: response.results });
   }
 
@@ -15,9 +16,7 @@ class HomePage extends Component {
     return (
       <div>
         <h1>Trending today</h1>
-        {this.state.movies.map(({ title, id }) => (
-          <li key={id}>{title}</li>
-        ))}
+        <MovieList data={this.state.movies}></MovieList>
       </div>
     );
   }
