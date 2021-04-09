@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Movies from "../../services/movie-api";
+import "./Reviews.scss";
 
 class Reviews extends Component {
   state = { reviews: [] };
@@ -8,18 +9,23 @@ class Reviews extends Component {
     const { movieId } = this.props.match.params;
     const response = await Movies.getMovies(`/movie/${movieId}/reviews`, "", 1);
     this.setState({ reviews: response.results });
-    console.log(this.state);
   }
 
   render() {
     return (
-      <div>
-        {this.state.reviews.map(({ author, id, content }) => (
-          <li key={id}>
-            <p>{author}</p>
-            <p>{content}</p>
-          </li>
-        ))}
+      <div className="Reviews">
+        {this.state.reviews.length === 0 ? (
+          <p className="Notification">
+            We don't have any reviews for this movie
+          </p>
+        ) : (
+          this.state.reviews.map(({ author, id, content }) => (
+            <li key={id}>
+              <p className="Author">{author}</p>
+              <p className="Content">{content}</p>
+            </li>
+          ))
+        )}
       </div>
     );
   }

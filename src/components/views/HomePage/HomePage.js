@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import MovieList from "../MoviesList/MoviesList";
-import Movies from "../../services/movie-api";
+import MovieList from "../../MoviesList/MoviesList";
+import Movies from "../../../services/movie-api";
+import "./HomePage.scss";
 
 class HomePage extends Component {
   state = {

@@ -1,9 +1,10 @@
 import { Link, withRouter } from "react-router-dom";
+import "./MoviesList.scss";
 
 const MovieList = ({ data, location }) => {
   return (
-    <div>
-      {data.map(({ title, id }) => (
+    <div className="MovieList">
+      {data.map(({ title, name, id }) => (
         <li key={id}>
           <Link
             to={{
@@ -14,7 +15,7 @@ const MovieList = ({ data, location }) => {
               },
             }}
           >
-            {title}
+            {title || name}
           </Link>
         </li>
       ))}

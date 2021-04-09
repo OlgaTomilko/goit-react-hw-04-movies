@@ -1,0 +1,13 @@
+@import "../../../styles/colors";
+
+.SearchForm-input {
+  width: 200px;
+  border-radius: 5px;
+}
+
+.SearchForm-button {
+  width: 80px;
+  background-color: $primary-color;
+  color: white;
+  border-radius: 5px;
+}

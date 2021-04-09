@@ -1,0 +1,41 @@
+@import "../../../styles/colors";
+
+.MovieDetailsPage {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  button {
+    width: 80px;
+    background-color: darkseagreen;
+    border-radius: 5px;
+    margin-left: 100px;
+    margin-bottom: 10px;
+  }
+}
+
+.info-wrapper {
+  display: flex;
+  * {
+    margin: 0;
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 30px;
+  }
+}
+
+.poster {
+  width: 280px;
+  margin-right: 50px;
+}
+
+.active {
+  color: $primary-color;
+}

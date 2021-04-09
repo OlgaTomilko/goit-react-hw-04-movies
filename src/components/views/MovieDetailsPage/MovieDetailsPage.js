@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route, NavLink, Switch } from "react-router-dom";
-import Movies from "../../services/movie-api";
-import Cast from "../Cast/Cast";
-import Reviews from "../Reviews/Reviews";
+import Movies from "../../../services/movie-api";
+import Cast from "../../Cast/Cast";
+import Reviews from "../../Reviews/Reviews";
+import "./MovieDetailsPage.scss";
 
 class MovieDetailsPage extends Component {
   state = {
@@ -18,7 +19,6 @@ class MovieDetailsPage extends Component {
     const { movieId } = this.props.match.params;
     const response = await Movies.getMovies(`/movie/${movieId}`);
     this.setState({ ...response });
-    // console.log(this.state);
   }
 
   render() {
@@ -32,7 +32,7 @@ class MovieDetailsPage extends Component {
     } = this.state;
     const { match, history, location } = this.props;
     return (
-      <div>
+      <div className="MovieDetailsPage">
         <button
           type="button"
           onClick={() => {
@@ -44,35 +44,52 @@ class MovieDetailsPage extends Component {
         >
           Back
         </button>
-        <img
-          src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
-          alt={title}
-        />
-        <h2>{title}</h2>
-        <p>User Score: {vote_average * 10}%</p>
-        <h3>Overview</h3>
-        <p>{overview}</p>
-        <h4>Genres</h4>
-        {genres.map(({ id, name }) => (
-          <li key={id}>{name}</li>
-        ))}
+        <div className="info-wrapper">
+          <img
+            src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+            alt={title}
+            className="poster"
+          />
+          <div>
+            <h2>{title}</h2>
+            <p>User Score: {vote_average * 10}%</p>
+            <h3>Overview</h3>
+            <p>{overview}</p>
+            <h4>Genres</h4>
+            {genres.map(({ id, name }) => (
+              <li key={id}>{name}</li>
+            ))}
+          </div>
+        </div>
+
         <ul>
           <li>
             <NavLink
-              // to={`${match.url}/cast`}
               to={{
                 pathname: `${match.url}/cast`,
-                // search: location.search,
+                search: location.search,
                 state: {
-                  from: this.props.location.pathname,
+                  from: location.state.from,
                 },
               }}
+              activeClassName="active"
             >
               Cast
             </NavLink>
           </li>
           <li>
-            <NavLink to={`${match.url}/reviews`}>Reviews</NavLink>
+            <NavLink
+              to={{
+                pathname: `${match.url}/reviews`,
+                search: location.search,
+                state: {
+                  from: location.state.from,
+                },
+              }}
+              activeClassName="active"
+            >
+              Reviews
+            </NavLink>
           </li>
         </ul>
         <Switch>

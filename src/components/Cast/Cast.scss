@@ -1,0 +1,28 @@
+.Cast {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+
+  img {
+    width: 100px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  li {
+    width: 150px;
+    text-align: center;
+    padding: 10px;
+    border: darkolivegreen 1px solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+  }
+}
+
+.Character {
+  color: darkolivegreen;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import MovieList from "../MoviesList/MoviesList";
-import Movies from "../../services/movie-api";
+import MovieList from "../../MoviesList/MoviesList";
+import Movies from "../../../services/movie-api";
+import "./MoviesPage.scss";
 
 class MoviesPage extends Component {
   state = {
@@ -20,12 +21,16 @@ class MoviesPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.handleSearch();
 
-    this.props.history.push({
-      ...this.props.location,
-      search: `?query=${this.state.query}`,
-    });
+    if (this.state.query) {
+      this.handleSearch();
+      this.props.history.push({
+        ...this.props.location,
+        search: `?query=${this.state.query}`,
+      });
+    } else {
+      alert("Complete search form");
+    }
   };
 
   handleSearch = async () => {
@@ -44,6 +49,7 @@ class MoviesPage extends Component {
               autoComplete="off"
               autoFocus
               placeholder="Search images and photos"
+              value={this.state.query}
               onChange={this.handleChange}
             />
 
